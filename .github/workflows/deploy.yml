@@ -1,9 +1,9 @@
-name: Deploy Morse Code Translator to GitHub Pages
+name: Deploy Battleship to GitHub Pages
 
 on:
   push:
-    branches: ["main"] # or "master" if that's your default
-  workflow_dispatch: # allows manual trigger from Actions tab
+    branches: ["main"] # change if your default branch is different
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -19,29 +19,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22 # or 20, 18, etc.
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
-        run: npm test
+      - name: Build CSS from SCSS
+        # either call npx directly...
+        run: npx sass styles.scss styles.css
+        # ...or, if you added a script in package.json, you can do:
+        # run: npm run build:css
 
-      # If you had a build step (e.g. bundling, compiling), it would go here:
-      # - name: Build project
-      #   run: npm run build
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
 
-      - name: Upload static files for GitHub Pages
+      - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # What to deploy. Here we deploy the repo root.
-          # If later you build into "dist", change this to "dist".
+          # Root of your static site; index.html and styles.css live here
           path: .
 
   deploy:
