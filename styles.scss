@@ -481,8 +481,8 @@ body {
   }
 
   .grid-cell {
-    border-radius: 4px;
-    border: 1.5px solid rgba(24, 34, 58, 0.75);
+    border-radius: 3px;
+    border: 1px solid rgba(24, 34, 58, 0.75);
   }
 
   /* Sticky status bar */
@@ -587,8 +587,8 @@ body {
     z-index: 30;
   }
   .board-wrapper {
-    width: 85vw;
-    max-width: 420px;
+    width: min(360px, 85vw); // prefers 360px (10 * 36), falls back to 85vw
+    max-width: 360px;
     --board-padding: 1rem;
     --grid-padding: 4px;
   }
